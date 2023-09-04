@@ -40,10 +40,17 @@ Changes in file test/CommandParserTest.cpp: @@ -566,7 +566,7 @@ TEST(CommandPars
 """
 
 GOOD_SAMPLE_RESPONSE = """
-Currently, our CI build does not include Valgrind as part of the build and test process. Valgrind is a powerful tool for detecting memory errors, and its use is essential for maintaining the integrity of our project.
-This pull request adds Valgrind to the CI build, so that any memory errors will be detected and reported immediately. This will help to prevent undetected memory errors from making it into the production build.
+## Description
+The changes in this pull request focus on integrating Valgrind into our CI build process, which was not present before. Valgrind is a critical tool for detecting memory errors and ensuring the overall integrity of our project. By including Valgrind in the CI build, it provides us with immediate detection and reporting capabilities for any memory errors that might occur. This integration will help us in preventing undetected memory errors from these tests ending up in the production builds, thereby contributing to improving the project's overall quality.
 
-Overall, this change will improve the quality of the project by helping us detect and prevent memory errors.
+## How Has This Been Tested?
+The new changes were tested in the CI environment where Valgrind was successfully installed and run over the existing codes. Memory leak tests were a focus of the testing process. The new code and related elements consistently passed these tests indicating that the proposed inclusion of Valgrind is executing as expected.
+
+## Deployment Plan
+<!--- Describe deployment steps if any, e.g. setting new environment variables, N/A otherwise -->
+
+## Screenshots:
+<!--- Add screenshots, N/A otherwise -->
 """
 
 
@@ -181,7 +188,7 @@ The title of the pull request is "{pull_request_title}" and the following change
         messages=[
             {
                 "role": "system",
-                "content": "You are a world class expert full stack web developer having experience with nodejs, typescript, express who writes pull request descriptions",
+                "content": "You are a world class expert full stack web developer having experience with nodejs, typescript, express who writes pull request descriptions adding 'description' and 'how has this been tested' sections.",
             },
             {"role": "user", "content": model_sample_prompt},
             {"role": "assistant", "content": model_sample_response},
