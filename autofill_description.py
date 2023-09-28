@@ -83,17 +83,18 @@ def main():
         help="The OpenAI API key",
     )
     parser.add_argument(
-        "--allowed-users",
-        type=str,
-        required=False,
-        help="A comma-separated list of GitHub usernames that are allowed to trigger the action, empty or missing means all users are allowed",
-    )
-    parser.add_argument(
         "--context",
         type=str,
         required=False,
         help="More context to add to the generated description",
     )
+    parser.add_argument(
+        "--allowed-users",
+        type=str,
+        required=False,
+        help="A comma-separated list of GitHub usernames that are allowed to trigger the action, empty or missing means all users are allowed",
+    )
+
     args = parser.parse_args()
 
     github_api_url = args.github_api_url
