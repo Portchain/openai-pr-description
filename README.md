@@ -40,12 +40,14 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          context: "The description of the task"
 ```
 
 | Input             | Description                                           | Required | Default                    |
 | ----------------- | ----------------------------------------------------- | -------- | -------------------------- |
 | `github_token`    | The GitHub token to use for the Action                | Yes      |                            |
 | `openai_api_key`  | The [OpenAI API key] to use, keep it hidden           | Yes      |                            |
+| `context`         | More context to add to the generated description      | No       |                            |
 | `pull_request_id` | The ID of the pull request to use                     | No       | Extracted from metadata    |
 | `openai_model`    | The [OpenAI model] to use                             | No       | `gpt-3.5-turbo`            |
 | `max_tokens`      | The maximum number of **prompt tokens** to use        | No       | `1000`                     |
@@ -53,28 +55,26 @@ jobs:
 | `sample_prompt`   | The prompt to use for giving context to the model     | No       | See `SAMPLE_PROMPT`        |
 | `sample_response` | A sample response for giving context to the model     | No       | See `GOOD_SAMPLE_RESPONSE` |
 
-
 [OpenAI API key]: https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key
 [OpenAI model]: https://platform.openai.com/docs/models
 [secret]: https://docs.github.com/en/actions/security-guides/encrypted-secrets
 
-
 ## Demo
 
-* [platisd/smartcar_shield/pull/70](https://github.com/platisd/smartcar_shield/pull/70)
-  * The GitHub Action explained why it is useful to add itself to a repository. 🤯
+- [platisd/smartcar_shield/pull/70](https://github.com/platisd/smartcar_shield/pull/70)
+  - The GitHub Action explained why it is useful to add itself to a repository. 🤯
 
 ![openai-pr-description-screenshot](media/openai-pr-description-screenshot.png)
 
-* [platisd/cpp-command-parser/pull/16](https://github.com/platisd/cpp-command-parser/pull/16)
-  * A decent explanation on why fetching `GoogleTest` during the `cmake` build instead of
-  version controlling it, is a good idea. 🎯
+- [platisd/cpp-command-parser/pull/16](https://github.com/platisd/cpp-command-parser/pull/16)
+  - A decent explanation on why fetching `GoogleTest` during the `cmake` build instead of
+    version controlling it, is a good idea. 🎯
 
 ![cpp-command-parser-screenshot](media/cpp-command-parser-screenshot.png)
 
-* [platisd/clang-tidy-pr-comments/pull/43](https://github.com/platisd/clang-tidy-pr-comments/pull/43)
-  * I would improve it a bit, some parts are a bit off, but with small modifications it'd better
-  than the PR description I originally had. 😅
+- [platisd/clang-tidy-pr-comments/pull/43](https://github.com/platisd/clang-tidy-pr-comments/pull/43)
+  - I would improve it a bit, some parts are a bit off, but with small modifications it'd better
+    than the PR description I originally had. 😅
 
 ![clang-tidy-pr-comments-screenshot](media/clang-tidy-pr-comments-screenshot.png)
 

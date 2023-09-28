@@ -7,6 +7,9 @@ inputs:
   openai_api_key:
     description: 'OpenAI API key'
     required: true
+  context:
+    description: 'More context to add to the generated description'
+    required: false
   pull_request_id:
     description: 'Pull request id (otherwise attempt to extract it from the GitHub metadata)'
     required: false

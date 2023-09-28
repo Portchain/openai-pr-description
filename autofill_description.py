@@ -88,6 +88,12 @@ def main():
         required=False,
         help="A comma-separated list of GitHub usernames that are allowed to trigger the action, empty or missing means all users are allowed",
     )
+    parser.add_argument(
+        "--context",
+        type=str,
+        required=False,
+        help="More context to add to the generated description",
+    )
     args = parser.parse_args()
 
     github_api_url = args.github_api_url
@@ -95,6 +101,7 @@ def main():
     github_token = args.github_token
     pull_request_id = args.pull_request_id
     openai_api_key = args.openai_api_key
+    external_context = args.context
     allowed_users = os.environ.get("INPUT_ALLOWED_USERS", "")
     if allowed_users:
         allowed_users = allowed_users.split(",")
@@ -163,6 +170,9 @@ def main():
         completion_prompt = f"""
 Write a pull request description focusing on the motivation behind the change and why it improves the project.
 Go straight to the point.
+
+Here is additional context regarding the changes made. Use them to better describe changes that took place: 
+{external_context}
 
 The title of the pull request is "{pull_request_title}" and the following changes took place: \n
 """
