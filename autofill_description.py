@@ -5,6 +5,7 @@ import argparse
 import json
 import openai
 import os
+import base64
 
 SAMPLE_PROMPT = """
 Write a pull request description focusing on the motivation behind the change and why it improves the project.
