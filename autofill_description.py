@@ -83,10 +83,28 @@ def main():
         help="The OpenAI API key",
     )
     parser.add_argument(
-        "--context",
+        "--jira-username",
         type=str,
-        required=False,
-        help="More context to add to the generated description",
+        required=True,
+        help="Jira username",
+    )
+    parser.add_argument(
+        "--jira-api-token",
+        type=str,
+        required=True,
+        help="Jira API token",
+    )
+    parser.add_argument(
+        "--jira-issue-key",
+        type=str,
+        required=True,
+        help="Jira issue key",
+    )
+    parser.add_argument(
+        "--jira-api-url",
+        type=str,
+        required=True,
+        help="Jira API URL",
     )
     parser.add_argument(
         "--allowed-users",
@@ -102,14 +120,19 @@ def main():
     github_token = args.github_token
     pull_request_id = args.pull_request_id
     openai_api_key = args.openai_api_key
-    external_context = args.context
+    jira_username = args.jira_username
+    jira_api_token = args.jira_api_token
+    jira_issue_key = args.jira_issue_key
+    jira_api_url = args.jira_api_url
+
     allowed_users = os.environ.get("INPUT_ALLOWED_USERS", "")
     if allowed_users:
         allowed_users = allowed_users.split(",")
     open_ai_model = os.environ.get("INPUT_OPENAI_MODEL", "gpt-3.5-turbo")
     max_prompt_tokens = int(os.environ.get("INPUT_MAX_TOKENS", "1000"))
     model_temperature = float(os.environ.get("INPUT_TEMPERATURE", "0.6"))
-    model_sample_prompt = os.environ.get("INPUT_MODEL_SAMPLE_PROMPT", SAMPLE_PROMPT)
+    model_sample_prompt = os.environ.get(
+        "INPUT_MODEL_SAMPLE_PROMPT", SAMPLE_PROMPT)
     model_sample_response = os.environ.get(
         "INPUT_MODEL_SAMPLE_RESPONSE", GOOD_SAMPLE_RESPONSE
     )
@@ -168,12 +191,51 @@ def main():
 
         pull_request_files.extend(pull_files_chunk)
 
+        # Fetch the Jira issue description
+        credentials = f'{jira_username}:{jira_api_token}'
+        credentials_base64 = base64.b64encode(credentials.encode()).decode()
+
+        # Create the headers with basic authentication using the API token
+        headers = {
+            'Authorization': f'Basic {credentials_base64}',
+            'Content-Type': 'application/json',
+        }
+
+        # Construct the URL for the Jira issue
+        url = f'{jira_api_url}/{jira_issue_key}'
+
+        # Send a GET request to retrieve the issue details
+        response = requests.get(url, headers=headers)
+
+        print(
+            f'Jira issue description request status code: {response.status_code}')
+
+        if response.status_code == 200:
+            issue_data = response.json()
+            description = ""
+
+            if 'fields' in issue_data and 'description' in issue_data['fields']:
+                description_data = issue_data['fields']['description']
+
+                if 'content' in description_data:
+                    for content in description_data['content']:
+                        if content['type'] == 'paragraph':
+                            for paragraph_content in content['content']:
+                                if paragraph_content['type'] == 'text':
+                                    description += paragraph_content['text'] + " "
+
+            task_description = description.strip()  # Print the description
+        else:
+            print(
+                f"Failed to fetch Jira issue description. Response: {response.text}")
+            task_description = ""
+
         completion_prompt = f"""
 Write a pull request description focusing on the motivation behind the change and why it improves the project.
 Go straight to the point.
 
-Here is additional context regarding the changes made. Use them to better describe changes that took place: 
-{external_context}
+Here is additional context regarding task and the changes made. Use them to better describe changes that took place: 
+{task_description}
 
 The title of the pull request is "{pull_request_title}" and the following changes took place: \n
 """
@@ -212,7 +274,8 @@ The title of the pull request is "{pull_request_title}" and the following change
     generated_pr_description = openai_response.choices[0].message.content
     redundant_prefix = "This pull request "
     if generated_pr_description.startswith(redundant_prefix):
-        generated_pr_description = generated_pr_description[len(redundant_prefix) :]
+        generated_pr_description = generated_pr_description[len(
+            redundant_prefix):]
         generated_pr_description = (
             generated_pr_description[0].upper() + generated_pr_description[1:]
         )

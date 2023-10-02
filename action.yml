@@ -7,9 +7,18 @@ inputs:
   openai_api_key:
     description: 'OpenAI API key'
     required: true
-  context:
-    description: 'More context to add to the generated description'
-    required: false
+  jira_username:
+    description: 'Jira username'
+    required: true
+  jira_api_token:
+    description: 'Jira API token'
+    required: true
+  jira_issue_key:
+    description: 'Jira issue key'
+    required: true
+  jira_api_url:
+    description: 'Jira API URL'
+    required: true
   pull_request_id:
     description: 'Pull request id (otherwise attempt to extract it from the GitHub metadata)'
     required: false

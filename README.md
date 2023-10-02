@@ -40,14 +40,20 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-          context: "The description of the task"
+          jira_username: ${{ secrets.JIRA_USERNAME }}
+          jira_api_token: ${{ secrets.JIRA_TOKEN }}
+          jira_issue_key: ${{ secrets.JIRA_ISSUE_KEY }}
+          jira_api_url: ${{ secrets.JIRA_URL }}
 ```
 
 | Input             | Description                                           | Required | Default                    |
 | ----------------- | ----------------------------------------------------- | -------- | -------------------------- |
 | `github_token`    | The GitHub token to use for the Action                | Yes      |                            |
 | `openai_api_key`  | The [OpenAI API key] to use, keep it hidden           | Yes      |                            |
-| `context`         | More context to add to the generated description      | No       |                            |
+| `jira_username`   | Jira username                                         | Yes      |                            |
+| `jira_api_token`  | Jira API token                                        | Yes      |                            |
+| `jira_issue_key`  | Jira issue key                                        | Yes      |                            |
+| `jira_api_url`    | Jira API url                                          | Yes      |                            |
 | `pull_request_id` | The ID of the pull request to use                     | No       | Extracted from metadata    |
 | `openai_model`    | The [OpenAI model] to use                             | No       | `gpt-3.5-turbo`            |
 | `max_tokens`      | The maximum number of **prompt tokens** to use        | No       | `1000`                     |
