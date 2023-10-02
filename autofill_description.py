@@ -203,7 +203,7 @@ def main():
         }
 
         # Construct the URL for the Jira issue
-        url = f'{jira_api_url}/{jira_issue_key}'
+        url = f'{jira_api_url}/3/issue/{jira_issue_key}'
 
         # Send a GET request to retrieve the issue details
         response = requests.get(url, headers=headers)
