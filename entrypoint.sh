@@ -22,5 +22,5 @@ fi
   --jira-username "$INPUT_JIRA_USERNAME" \
   --jira-api-token "$INPUT_JIRA_API_TOKEN" \
   --jira-issue-key "$INPUT_JIRA_ISSUE_KEY" \
-  --jira-api-url "$INPUT_API_URL" \
+  --jira-api-url "$INPUT_JIRA_API_URL" \
 
