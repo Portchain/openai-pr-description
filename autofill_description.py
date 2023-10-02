@@ -280,6 +280,7 @@ The title of the pull request is "{pull_request_title}" and the following change
         generated_pr_description = (
             generated_pr_description[0].upper() + generated_pr_description[1:]
         )
+    generated_pr_description = f'[{jira_issue_key}](https://portchain.atlassian.net/browse/{jira_issue_key})\n\n{generated_pr_description}'
     print(f"Generated pull request description: '{generated_pr_description}'")
     issues_url = "%s/repos/%s/issues/%s" % (
         github_api_url,
