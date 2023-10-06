@@ -130,7 +130,7 @@ def main():
     if allowed_users:
         allowed_users = allowed_users.split(",")
     open_ai_model = os.environ.get("INPUT_OPENAI_MODEL", "gpt-4")
-    max_prompt_tokens = int(os.environ.get("INPUT_MAX_TOKENS", "2000"))
+    max_prompt_tokens = int(os.environ.get("INPUT_MAX_TOKENS", "1000"))
     model_temperature = float(os.environ.get("INPUT_TEMPERATURE", "0.6"))
     model_sample_prompt = os.environ.get(
         "INPUT_MODEL_SAMPLE_PROMPT", SAMPLE_PROMPT)
@@ -231,6 +231,9 @@ def main():
                 f"Failed to fetch Jira issue description. Response: {response.text}")
             task_description = ""
 
+        # Define an array of filenames to exclude
+        exclude_filenames = ["package-lock.json"]
+
         completion_prompt = f"""
 Write a pull request description focusing on the motivation behind the change and why it improves the project.
 Go straight to the point.
@@ -247,6 +250,10 @@ The title of the pull request is "{pull_request_title}" and the following change
             continue
 
         filename = pull_request_file["filename"]
+
+        if filename in exclude_filenames:
+            continue
+
         patch = pull_request_file["patch"]
         completion_prompt += f"Changes in file {filename}: {patch}\n"
 
