@@ -238,7 +238,11 @@ def main():
 Take a deep breath and work on this problem step-by-step. 
 Write a concise pull request description focusing on the motivation behind the change so that it is helpful for the reviewer to understand.
 Go straight to the point, avoid verbosity.
-Avoid filling out 'how has this been tested' if unsure.
+Your pull request description should consist of four sections:
+a. Description: This is the core of your description. 
+b. How Has This Been Tested?: If you're uncertain, leave this section empty.
+c. Deployment Plan: Leave this section blank for the author to fill out. 
+d. Screenshots: Similar to the Deployment Plan, leave this section blank. 
 
 Below is additional context regarding task for the changes made. Use them to better describe changes that took place: 
 {task_description}
@@ -265,9 +269,8 @@ The title of the pull request is "{pull_request_title}" and the following change
     if len(completion_prompt) > max_allowed_characters:
         completion_prompt = completion_prompt[:max_allowed_characters]
 
-    
     print(f"Using model: '{open_ai_model}'")
-    
+
     openai.api_key = openai_api_key
     openai_response = openai.ChatCompletion.create(
         model=open_ai_model,
