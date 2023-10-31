@@ -235,10 +235,12 @@ def main():
         exclude_filenames = ["package-lock.json"]
 
         completion_prompt = f"""
-Write a pull request description focusing on the motivation behind the change and why it improves the project.
-Go straight to the point.
+Take a deep breath and work on this problem step-by-step. 
+Write a concise pull request description focusing on the motivation behind the change so that it is helpful for the reviewer to understand.
+Go straight to the point, avoid verbosity.
+Avoid filling out 'how has this been tested' if unsure.
 
-Here is additional context regarding task and the changes made. Use them to better describe changes that took place: 
+Below is additional context regarding task for the changes made. Use them to better describe changes that took place: 
 {task_description}
 
 The title of the pull request is "{pull_request_title}" and the following changes took place: \n
