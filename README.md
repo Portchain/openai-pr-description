@@ -1,6 +1,6 @@
 ## Description
-This repo is forked and adjusted to meet companies speciffic needs
+This repo is forked and adjusted to meet the company's specific needs.
 
-The orignal repository and relevant documentation can be found here
+The original repository and relevant documentation can be found here:
 
-https://github.com/platisd/openai-pr-description
+[https://github.com/platisd/openai-pr-description](https://github.com/platisd/openai-pr-description)
